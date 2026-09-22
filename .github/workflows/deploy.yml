@@ -22,27 +22,22 @@ jobs:
 
             echo "Starting deployment..."
 
-            # Go to the Git repository
             cd /home/ubuntu/Akmal-Iqbal-Portfolio-
 
-            echo "Pulling latest code from GitHub..."
-
-            git fetch origin
+            echo "Pulling latest code..."
+            git fetch origin master
             git reset --hard origin/master
 
-            echo "Copying latest files to Nginx..."
-
+            echo "Syncing files to Nginx..."
             sudo rsync -av --delete \
               --exclude='.git' \
               /home/ubuntu/Akmal-Iqbal-Portfolio-/ \
               /var/www/html/
 
-            echo "Testing Nginx configuration..."
-
+            echo "Testing Nginx..."
             sudo nginx -t
 
             echo "Reloading Nginx..."
-
             sudo systemctl reload nginx
 
             echo "Deployment completed successfully!"
