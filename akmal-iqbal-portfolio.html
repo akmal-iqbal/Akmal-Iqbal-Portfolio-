@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akmal Iqbal — Front-End &amp; WordPress Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10141A;
+    --ink-soft:#1B222B;
+    --ink-line: rgba(237,239,232,0.10);
+    --paper:#EFF1EA;
+    --panel:#FFFFFF;
+    --line: rgba(16,20,26,0.10);
+    --text:#171B1F;
+    --text-muted:#5B6570;
+    --text-inverse:#EDEFE8;
+    --text-inverse-muted:#98A1A8;
+    --amber:#E2963A;
+    --amber-ink:#7A4B12;
+    --mint:#2E9974;
+    --radius:3px;
+    --measure: 62ch;
+    --shadow-sm: 0 1px 2px rgba(16,20,26,0.06);
+    --shadow-md: 0 10px 30px -14px rgba(16,20,26,0.18);
+    --shadow-lg: 0 24px 50px -20px rgba(16,20,26,0.22);
+    --ease: cubic-bezier(.16,.8,.3,1);
+    --font-display:'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+    --font-body:'Inter', 'Segoe UI', system-ui, sans-serif;
+    --font-mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#10141A; --ink-soft:#1B222B; --paper:#EFF1EA; --panel:#FFFFFF;
+      --text:#171B1F; --text-muted:#5B6570; --text-inverse:#EDEFE8; --text-inverse-muted:#98A1A8;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#10141A; --ink-soft:#1B222B; --paper:#EFF1EA; --panel:#FFFFFF;
+    --text:#171B1F; --text-muted:#5B6570; --text-inverse:#EDEFE8; --text-inverse-muted:#98A1A8;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block; max-width:100%;}
+  a{color:inherit;}
+  :focus-visible{outline:2px solid var(--amber); outline-offset:3px;}
+
+  .wrap{width:100%; max-width:1120px; margin:0 auto; padding:0 28px;}
+  section{position:relative;}
+
+  h1,h2,h3{font-family:var(--font-display); font-weight:600; margin:0; letter-spacing:-0.01em;}
+  p{margin:0;}
+  .measure{max-width:var(--measure);}
+
+  .mono{font-family:var(--font-mono); font-size:0.82rem; letter-spacing:0.01em;}
+  .muted{color:var(--text-muted);}
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(16,20,26,0.92);
+    backdrop-filter:saturate(140%) blur(6px);
+    border-bottom:1px solid var(--ink-line);
+  }
+  .nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .nav-name{font-family:var(--font-display); font-weight:600; font-size:1rem; color:var(--text-inverse); text-decoration:none;}
+  .nav-links{display:flex; gap:28px; list-style:none; margin:0; padding:0;}
+  .nav-links a{
+    color:var(--text-inverse-muted); text-decoration:none; font-size:0.92rem;
+    padding:4px 1px 6px; border-bottom:1px solid transparent; transition:color .2s var(--ease), border-color .2s var(--ease);
+  }
+  .nav-links a:hover{color:var(--text-inverse); border-bottom-color:var(--text-inverse-muted);}
+  .nav-links a.is-current{color:var(--text-inverse); border-bottom-color:var(--amber);}
+  .nav-cta{
+    font-family:var(--font-mono); font-size:0.78rem; color:var(--ink);
+    background:var(--amber); padding:8px 14px; border-radius:var(--radius);
+    text-decoration:none; white-space:nowrap;
+  }
+  .nav-cta:hover{background:#EEA750;}
+  .nav-burger{display:none; background:none; border:1px solid var(--ink-line); color:var(--text-inverse); border-radius:var(--radius); padding:8px 10px; font-size:1rem;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:var(--ink);
+    color:var(--text-inverse);
+    padding:76px 0 88px;
+    background-image:
+      linear-gradient(var(--ink-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--ink-line) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: center top;
+  }
+  .hero-top{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:0.8rem; color:var(--text-inverse-muted);
+    margin-bottom:26px; padding:7px 14px 7px 10px; border:1px solid var(--ink-line); border-radius:20px;
+    background:rgba(255,255,255,0.03);
+  }
+  .hero-top .dot{color:var(--mint); font-size:0.6rem;}
+  .hero h1{
+    font-size:clamp(2.1rem, 4.4vw, 3.4rem);
+    line-height:1.12;
+    color:var(--text-inverse);
+    max-width:14ch;
+  }
+  .hero-sub{
+    margin-top:22px; color:var(--text-inverse-muted); font-size:1.05rem; max-width:56ch;
+  }
+  .hero-cta{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:0.95rem;
+    padding:13px 24px; border-radius:var(--radius); text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px; border:1px solid transparent;
+    transition:background .2s var(--ease), border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .btn-primary{background:var(--amber); color:var(--ink); box-shadow:0 1px 0 rgba(0,0,0,0.05);}
+  .btn-primary:hover{background:#EEA750; transform:translateY(-1px); box-shadow:var(--shadow-md);}
+  .btn-ghost{border-color:var(--ink-line); color:var(--text-inverse);}
+  .btn-ghost:hover{border-color:var(--text-inverse-muted); transform:translateY(-1px);}
+
+  .hero-demo{margin-top:64px;}
+  .demo-label{
+    font-family:var(--font-mono); font-size:0.78rem; color:var(--text-inverse-muted);
+    margin-bottom:14px;
+  }
+  .viewport-toggle{display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;}
+  .vp-btn{
+    font-family:var(--font-mono); font-size:0.78rem; color:var(--text-inverse-muted);
+    background:transparent; border:1px solid var(--ink-line); border-radius:var(--radius);
+    padding:8px 12px; cursor:pointer; transition:border-color .18s, color .18s, background .18s;
+  }
+  .vp-btn:hover{color:var(--text-inverse); border-color:var(--text-inverse-muted);}
+  .vp-btn.is-active{color:var(--ink); background:var(--mint); border-color:var(--mint);}
+
+  .device-shell{
+    width: min(100%, var(--w, 1440px));
+    transition:width .55s cubic-bezier(.16,.8,.3,1);
+    border-radius:6px; overflow:hidden;
+    border:1px solid var(--ink-line);
+    box-shadow:0 30px 60px -30px rgba(0,0,0,0.55);
+    container-type:inline-size;
+    background:var(--panel);
+  }
+  .device-chrome{
+    background:var(--ink-soft); padding:9px 12px; display:flex; align-items:center; gap:8px;
+    border-bottom:1px solid var(--ink-line);
+  }
+  .chrome-dot{width:8px; height:8px; border-radius:50%; background:#3A424C;}
+  .chrome-url{
+    font-family:var(--font-mono); font-size:0.72rem; color:var(--text-inverse-muted);
+    margin-left:6px; background:rgba(255,255,255,0.04); padding:3px 10px; border-radius:10px;
+  }
+  .mock-page{padding:18px; height:300px; overflow:hidden;}
+  .mock-nav{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;}
+  .mock-logo{width:56px; height:10px; background:var(--ink); border-radius:2px;}
+  .mock-nav-links{display:flex; gap:12px;}
+  .mock-nav-links span{width:28px; height:7px; background:#D8DBD2; border-radius:2px;}
+  .mock-burger{display:none; flex-direction:column; gap:3px;}
+  .mock-burger span{width:16px; height:2px; background:var(--ink); border-radius:1px;}
+  .mock-hero{margin-bottom:16px;}
+  .mock-hero .l1{width:70%; height:12px; background:var(--ink); border-radius:2px; margin-bottom:8px;}
+  .mock-hero .l2{width:45%; height:12px; background:var(--ink); border-radius:2px; margin-bottom:12px;}
+  .mock-hero .btn{width:78px; height:20px; background:var(--amber); border-radius:2px; padding:0; display:block;}
+  .mock-grid{display:grid; grid-template-columns:1fr; gap:10px;}
+  .mock-card{background:var(--paper); border:1px solid var(--line); border-radius:3px; padding:10px; height:64px;}
+  .mock-card .b1{width:60%; height:7px; background:#B9BDB3; border-radius:2px; margin-bottom:6px;}
+  .mock-card .b2{width:85%; height:6px; background:#D8DBD2; border-radius:2px;}
+  @container (min-width:501px) and (max-width:900px){
+    .mock-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @container (min-width:901px){
+    .mock-grid{grid-template-columns:repeat(3,1fr);}
+  }
+  @container (max-width:500px){
+    .mock-nav-links{display:none;}
+    .mock-burger{display:flex;}
+  }
+
+  /* ---------- Section shell ---------- */
+  .section{padding:84px 0;}
+  .section-border{border-top:1px solid var(--line);}
+  .section-head{margin-bottom:44px; display:flex; align-items:baseline; justify-content:space-between; gap:24px; flex-wrap:wrap;}
+  .section-head h2{font-size:clamp(1.5rem,2.6vw,2rem);}
+  .section-tag{
+    font-family:var(--font-mono); font-size:0.76rem; color:var(--text-muted);
+    border:1px solid var(--line); border-radius:14px; padding:5px 12px; white-space:nowrap;
+  }
+
+  /* ---------- About ---------- */
+  .about-grid{display:grid; grid-template-columns:1.5fr 1fr; gap:56px; align-items:start;}
+  .about-grid p{font-size:1.05rem; color:var(--text);}
+  .about-grid p + p{margin-top:16px;}
+  .stat-list{display:flex; flex-direction:column; gap:14px;}
+  .stat{
+    background:var(--panel); border:1px solid var(--line); border-radius:6px;
+    padding:20px 22px; box-shadow:var(--shadow-sm); transition:box-shadow .2s var(--ease), transform .2s var(--ease);
+  }
+  .stat:hover{box-shadow:var(--shadow-md); transform:translateY(-2px);}
+  .stat .num{font-family:var(--font-display); font-size:2rem; font-weight:600; color:var(--amber-ink);}
+  .stat .lab{font-size:0.9rem; color:var(--text-muted); margin-top:4px;}
+
+  /* ---------- Work (list, not cards) ---------- */
+  .work-list{
+    background:var(--panel); border:1px solid var(--line); border-radius:6px;
+    box-shadow:var(--shadow-md); overflow:hidden;
+  }
+  .work-row{
+    display:grid; grid-template-columns:32px 1fr 2.1fr auto; gap:22px; align-items:center;
+    padding:24px 26px; border-bottom:1px solid var(--line);
+    text-decoration:none; color:inherit;
+    position:relative; transition:background .2s var(--ease);
+  }
+  .work-row:last-child{border-bottom:none;}
+  .work-row::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--amber);
+    transform:scaleY(0); transform-origin:top; transition:transform .25s var(--ease);
+  }
+  .work-row:hover{background:rgba(226,150,58,0.05);}
+  .work-row:hover::before{transform:scaleY(1);}
+  .work-row:hover .work-name{color:var(--amber-ink);}
+  .work-index{font-family:var(--font-mono); font-size:0.78rem; color:var(--text-muted);}
+  .work-name{font-family:var(--font-display); font-weight:600; font-size:1.15rem; transition:color .2s var(--ease);}
+  .work-desc{color:var(--text-muted); font-size:0.96rem;}
+  .work-meta{display:flex; align-items:center; gap:14px; justify-self:end;}
+  .work-tag{font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted); border:1px solid var(--line); border-radius:12px; padding:4px 10px; white-space:nowrap;}
+  .work-arrow{width:16px; height:16px; color:var(--text-muted); transition:transform .2s var(--ease), color .2s var(--ease);}
+  .work-row:hover .work-arrow{transform:translate(2px,-2px); color:var(--amber-ink);}
+
+  /* ---------- Skills ---------- */
+  .skill-groups{display:grid; grid-template-columns:repeat(3,1fr); gap:40px;}
+  .skill-group h3{font-size:1rem; margin-bottom:16px;}
+  .skill-group h3 .n{font-family:var(--font-mono); color:var(--mint); font-weight:400; margin-right:8px;}
+  .tag-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    font-family:var(--font-mono); font-size:0.78rem; color:var(--text);
+    background:var(--panel); border:1px solid var(--line); border-radius:3px; padding:6px 10px;
+    box-shadow:var(--shadow-sm); transition:border-color .2s var(--ease), transform .2s var(--ease);
+  }
+  .tag:hover{border-color:var(--amber); transform:translateY(-1px);}
+
+  /* ---------- Experience / Education timeline ---------- */
+  .timeline{display:flex; flex-direction:column;}
+  .tl-item{
+    display:grid; grid-template-columns:140px 1fr; gap:28px;
+    padding:26px 0; border-bottom:1px solid var(--line);
+  }
+  .tl-item:first-child{padding-top:0;}
+  .tl-date{font-family:var(--font-mono); font-size:0.82rem; color:var(--text-muted); padding-top:3px;}
+  .tl-role{font-family:var(--font-display); font-size:1.15rem; font-weight:600; display:flex; align-items:center; gap:10px;}
+  .tl-current{
+    font-family:var(--font-mono); font-size:0.68rem; color:var(--mint);
+    border:1px solid var(--mint); border-radius:10px; padding:2px 8px; font-weight:400;
+  }
+  .tl-org{color:var(--text-muted); font-size:0.95rem; margin-top:2px;}
+  .tl-bullets{margin:14px 0 0; padding-left:18px; color:var(--text); font-size:0.95rem;}
+  .tl-bullets li{margin-bottom:6px;}
+  .tl-bullets li:last-child{margin-bottom:0;}
+
+  .edu-item{display:grid; grid-template-columns:140px 1fr; gap:28px; padding:18px 0; border-bottom:1px solid var(--line);}
+  .edu-item:last-child{border-bottom:none;}
+
+  /* ---------- Contact / footer ---------- */
+  .contact{background:var(--ink); color:var(--text-inverse); padding:88px 0 40px;}
+  .contact h2{font-size:clamp(1.7rem,3.4vw,2.4rem); color:var(--text-inverse); max-width:16ch; line-height:1.2;}
+  .contact-row{
+    margin-top:40px; display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+    border-top:1px solid var(--ink-line); padding-top:32px;
+  }
+  .contact-block .k{
+    font-family:var(--font-mono); font-size:0.72rem; color:var(--text-inverse-muted); margin-bottom:10px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .contact-block .k svg{width:14px; height:14px; color:var(--mint);}
+  .contact-block a{color:var(--text-inverse); text-decoration:none; font-size:1.05rem; transition:color .2s var(--ease);}
+  .contact-block a:hover{color:var(--amber);}
+  .foot-bottom{
+    margin-top:56px; padding-top:22px; border-top:1px solid var(--ink-line);
+    display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    font-family:var(--font-mono); font-size:0.75rem; color:var(--text-inverse-muted);
+  }
+
+  @media (max-width:860px){
+    .about-grid{grid-template-columns:1fr;}
+    .skill-groups{grid-template-columns:1fr; gap:30px;}
+    .contact-row{grid-template-columns:1fr; gap:26px;}
+    .work-row{grid-template-columns:1fr; row-gap:8px;}
+    .work-index{display:none;}
+    .work-meta{justify-self:start;}
+    .tl-item, .edu-item{grid-template-columns:1fr; gap:6px;}
+  }
+  @media (max-width:640px){
+    .nav-links{display:none;}
+    .nav-burger{display:inline-flex;}
+    .nav-cta{display:none;}
+    .section{padding:60px 0;}
+    .hero{padding:56px 0 60px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="nav-name" href="#top">Akmal Iqbal</a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Get in touch</a>
+    <button class="nav-burger" aria-label="Open menu" id="burgerBtn">☰</button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-top"><span class="dot">●</span><span>Available for front-end &amp; WordPress work · Lahore, Pakistan</span></div>
+    <h1>I build websites that hold their shape at every width.</h1>
+    <p class="hero-sub">Front-end &amp; WordPress developer turning Figma, Adobe XD and PSD files into fast, responsive, pixel-accurate sites — two years in, six live products shipped.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#work">See the work</a>
+      <a class="btn btn-ghost" href="#contact">Say hello</a>
+    </div>
+
+    <div class="hero-demo">
+      <div class="demo-label">// the same layout, three breakpoints — try it</div>
+      <div class="viewport-toggle" role="group" aria-label="Preview viewport size">
+        <button class="vp-btn is-active" data-w="375" type="button">Mobile · 375×812</button>
+        <button class="vp-btn" data-w="834" type="button">Tablet · 834×1194</button>
+        <button class="vp-btn" data-w="1440" type="button">Desktop · 1440×900</button>
+      </div>
+      <div class="device-shell" id="deviceShell" style="--w:375px;">
+        <div class="device-chrome">
+          <span class="chrome-dot"></span><span class="chrome-dot"></span><span class="chrome-dot"></span>
+          <span class="chrome-url">akmaliqbal.dev/preview</span>
+        </div>
+        <div class="mock-page">
+          <div class="mock-nav">
+            <div class="mock-logo"></div>
+            <div class="mock-nav-links"><span></span><span></span><span></span></div>
+            <div class="mock-burger"><span></span><span></span><span></span></div>
+          </div>
+          <div class="mock-hero">
+            <div class="l1"></div>
+            <div class="l2"></div>
+            <span class="btn"></span>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card"><div class="b1"></div><div class="b2"></div></div>
+            <div class="mock-card"><div class="b1"></div><div class="b2"></div></div>
+            <div class="mock-card"><div class="b1"></div><div class="b2"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="section section-border" id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>About</h2>
+      <span class="section-tag">based in Lahore, PK</span>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>I'm a front-end and WordPress developer based in Lahore. For the past two years I've been turning designs into websites that actually work — fast, responsive, and built to hold up under real content and real browsers.</p>
+        <p>I currently build and maintain client sites at IPS Pakistan, converting Figma, Adobe XD and PSD handoffs into production pages, and shipping them through WordPress with Elementor and Breakdance. I care about the details that are easy to skip: image weight, layout shift, and how a button actually feels on a 375px screen versus a 1440px one.</p>
+      </div>
+      <div class="stat-list">
+        <div class="stat"><div class="num">2+</div><div class="lab">years building production websites</div></div>
+        <div class="stat"><div class="num">6</div><div class="lab">live projects shipped and in use today</div></div>
+        <div class="stat"><div class="num">2025</div><div class="lab">completed a dedicated WordPress developer training</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-border" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Selected work</h2>
+      <span class="section-tag">6 live sites</span>
+    </div>
+    <div class="work-list">
+
+      <a class="work-row" href="https://truckverse.net/" target="_blank" rel="noopener">
+        <span class="work-index">01</span>
+        <span class="work-name">TruckVerse</span>
+        <span class="work-desc">Freight brokerage platform connecting truck carriers and shippers across the US.</span>
+        <span class="work-meta">
+          <span class="work-tag">Logistics</span>
+          <svg class="work-arrow" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a class="work-row" href="https://ipsbpo.com/" target="_blank" rel="noopener">
+        <span class="work-index">02</span>
+        <span class="work-name">IPS BPO</span>
+        <span class="work-desc">Outsourcing brand covering healthcare billing, construction estimating and truck dispatch.</span>
+        <span class="work-meta">
+          <span class="work-tag">Corporate</span>
+          <svg class="work-arrow" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a class="work-row" href="https://constructem.com/" target="_blank" rel="noopener">
+        <span class="work-index">03</span>
+        <span class="work-name">Constructem</span>
+        <span class="work-desc">Construction cost-estimating and design-drafting service for US contractors.</span>
+        <span class="work-meta">
+          <span class="work-tag">Construction</span>
+          <svg class="work-arrow" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a class="work-row" href="https://qppmips.com/" target="_blank" rel="noopener">
+        <span class="work-index">04</span>
+        <span class="work-name">QPP MIPS</span>
+        <span class="work-desc">MIPS reporting and medical billing consultancy for healthcare providers.</span>
+        <span class="work-meta">
+          <span class="work-tag">Healthcare</span>
+          <svg class="work-arrow" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a class="work-row" href="https://ipsuni.com/" target="_blank" rel="noopener">
+        <span class="work-index">05</span>
+        <span class="work-name">IPS Uni</span>
+        <span class="work-desc">Career-focused IT and vocational training institute in Lahore.</span>
+        <span class="work-meta">
+          <span class="work-tag">Education</span>
+          <svg class="work-arrow" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a class="work-row" href="https://foodo.com.pk/" target="_blank" rel="noopener">
+        <span class="work-index">06</span>
+        <span class="work-name">Foodo</span>
+        <span class="work-desc">Monthly meal-subscription delivery for offices and hostels in Lahore.</span>
+        <span class="work-meta">
+          <span class="work-tag">Food &amp; delivery</span>
+          <svg class="work-arrow" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="section section-border" id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Skills</h2>
+      <span class="section-tag">tools &amp; practice</span>
+    </div>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h3><span class="n">01</span>Frontend</h3>
+        <div class="tag-row">
+          <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span><span class="tag">Bootstrap</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3><span class="n">02</span>WordPress</h3>
+        <div class="tag-row">
+          <span class="tag">Theme customization</span><span class="tag">Plugin integration</span><span class="tag">WooCommerce</span><span class="tag">Elementor</span><span class="tag">Breakdance</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3><span class="n">03</span>Practice</h3>
+        <div class="tag-row">
+          <span class="tag">Mobile-first / responsive</span><span class="tag">Cross-browser QA</span><span class="tag">Page-speed optimization</span><span class="tag">Figma/XD/PSD → code</span><span class="tag">Git / GitHub</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-border" id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Experience</h2>
+      <span class="section-tag">Oct 2024 — present</span>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Oct 2024 —<br>Current</div>
+        <div>
+          <div class="tl-role">Web Developer <span class="tl-current">Current</span></div>
+          <div class="tl-org">IPS Pakistan, Lahore</div>
+          <ul class="tl-bullets">
+            <li>Convert Figma, Adobe XD and PSD designs into fully functional, responsive websites.</li>
+            <li>Improve site performance through image optimization, minification and lazy loading.</li>
+            <li>Ensure cross-browser compatibility and mobile responsiveness across every project.</li>
+            <li>Integrate third-party tools — contact forms, payment gateways, analytics.</li>
+            <li>Manage content, updates and backups through the WordPress CMS.</li>
+            <li>Build with Elementor and Breakdance, and track changes with Git/GitHub.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2025</div>
+        <div>
+          <div class="tl-role">WordPress Developer Training</div>
+          <div class="tl-org">IPS Uni — project-based, 3 months</div>
+          <ul class="tl-bullets">
+            <li>Covered CMS fundamentals, theme customization and responsive design.</li>
+            <li>Built real-world sites using Elementor, HTML, CSS and JavaScript.</li>
+            <li>Learned website security, backups and ongoing maintenance practice.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:56px;">
+      <div class="section-tag" style="margin-bottom:18px;">Education</div>
+      <div class="edu-item">
+        <div class="tl-date">2020 — 2024</div>
+        <div><strong>Bachelor's in Computer Science</strong><div class="tl-org">Affiliated Government College / University, Faisalabad</div></div>
+      </div>
+      <div class="edu-item">
+        <div class="tl-date">2018 — 2020</div>
+        <div><strong>Intermediate</strong><div class="tl-org">Narowal Public School &amp; College</div></div>
+      </div>
+      <div class="edu-item">
+        <div class="tl-date">2016 — 2018</div>
+        <div><strong>Matriculation</strong><div class="tl-org">Narowal Public School &amp; College</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <h2>Have a site that needs to be built right? Let's talk.</h2>
+    <div class="contact-row">
+      <div class="contact-block">
+        <div class="k"><svg viewBox="0 0 20 20" fill="none"><path d="M3 5h14v10H3V5Z" stroke="currentColor" stroke-width="1.3"/><path d="M3 5l7 6 7-6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Email</div>
+        <a href="mailto:akmal.dox@gmail.com">akmal.dox@gmail.com</a>
+      </div>
+      <div class="contact-block">
+        <div class="k"><svg viewBox="0 0 20 20" fill="none"><path d="M6 3.5c.5 1.3 1.2 2.5 2.1 3.6l-1.5 2c1 1.8 2.4 3.2 4.2 4.2l2-1.5c1.1.9 2.3 1.6 3.6 2.1v2.4c0 .8-.7 1.4-1.5 1.3C9.2 17 3 10.8 2.4 4.2 2.3 3.4 2.9 2.7 3.7 2.7H6v.8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>Phone</div>
+        <a href="tel:+923007702563">+92 300 7702563</a>
+      </div>
+      <div class="contact-block">
+        <div class="k"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="8.3" r="2.4" stroke="currentColor" stroke-width="1.3"/><path d="M10 18s6-5.4 6-9.7A6 6 0 0 0 4 8.3C4 12.6 10 18 10 18Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>Location</div>
+        <span>Gulberg 3, Lahore, Pakistan</span>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Akmal Iqbal — Front-End &amp; WordPress Developer</span>
+      <span>Built &amp; maintained by hand, pixel by pixel</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var shell = document.getElementById('deviceShell');
+    var buttons = document.querySelectorAll('.vp-btn');
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        buttons.forEach(function(b){ b.classList.remove('is-active'); });
+        btn.classList.add('is-active');
+        shell.style.setProperty('--w', btn.dataset.w + 'px');
+      });
+    });
+
+    var navAnchors = document.querySelectorAll('.nav-links a');
+    var sections = Array.prototype.slice.call(navAnchors).map(function(a){
+      return document.getElementById(a.getAttribute('href').slice(1));
+    }).filter(Boolean);
+    if('IntersectionObserver' in window && sections.length){
+      var spy = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            navAnchors.forEach(function(a){ a.classList.remove('is-current'); });
+            var match = document.querySelector('.nav-links a[href="#' + entry.target.id + '"]');
+            if(match){ match.classList.add('is-current'); }
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+      sections.forEach(function(s){ spy.observe(s); });
+    }
+
+    var burger = document.getElementById('burgerBtn');
+    var navLinks = document.querySelector('.nav-links');
+    if(burger){
+      burger.addEventListener('click', function(){
+        var open = navLinks.style.display === 'flex';
+        navLinks.style.display = open ? 'none' : 'flex';
+        navLinks.style.flexDirection = 'column';
+        navLinks.style.position = 'absolute';
+        navLinks.style.top = '64px';
+        navLinks.style.left = '0';
+        navLinks.style.right = '0';
+        navLinks.style.background = 'rgba(16,20,26,0.98)';
+        navLinks.style.padding = '18px 28px';
+        navLinks.style.gap = '16px';
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+
+          script: |
+            set -e
+
+            echo "Starting deployment..."
+
+            cd /home/ubuntu/Akmal-Iqbal-Portfolio-
+
+            echo "Pulling latest code..."
+            git fetch origin master
+            git reset --hard origin/master
+
+            echo "Syncing files to Nginx..."
+            sudo rsync -av --delete \
+              --exclude='.git' \
+              /home/ubuntu/Akmal-Iqbal-Portfolio-/ \
+              /var/www/html/
+
+            echo "Testing Nginx..."
+            sudo nginx -t
+
+            echo "Reloading Nginx..."
+            sudo systemctl reload nginx
+
+            echo "Deployment completed successfully!"
